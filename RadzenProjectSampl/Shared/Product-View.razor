@@ -2,7 +2,21 @@
 @layout MainLayout
 
 <div class="col-12 row">
-    <div class="col-8">
+    <div class="col-2">
+        <div class="thumbnails-container">
+            @foreach (var slide in Product.Images)
+            {
+                <div class="column">
+                    <img class="demo cursor @(slideIndex == slide.ImageID ? "active" : "")"
+                         src="@slide.ImageUrl" style="width:100%"
+                    @onclick="() => ShowSlide(slide.ImageID)"
+                         alt="@slide.ImageUrl">
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="col-6">
         <div class="container">
             @foreach (var slide in Product.Images)
             {
@@ -16,17 +30,6 @@
 
             <div class="caption-container">
                 <p>@caption</p>
-            </div>
-            <div class="thumbnails-container">
-                @foreach (var slide in Product.Images)
-                {
-                    <div class="column">
-                        <img class="demo cursor @(slideIndex == slide.ImageID ? "active" : "")"
-                             src="@slide.ImageUrl" style="width:100%"
-                        @onclick="() => ShowSlide(slide.ImageID)"
-                             alt="@slide.ImageUrl">
-                    </div>
-                }
             </div>
         </div>
     </div>
@@ -190,61 +193,24 @@
 
     .thumbnails-container {
         display: flex;
-        overflow-x: auto;
+        flex-direction: column;
+        overflow-y: auto;
         white-space: nowrap;
         padding: 10px 0;
+        height: 100vh;
     }
 
-    .column {
-        flex: 0 0 auto;
-        width: 16.66%;
-        margin-right: 10px;
-    }
 
-    .demo {
-        opacity: 0.6;
-    }
+    
 
-        .active, .demo:hover {
-            opacity: 1;
-        }
+ 
 
 
 
 
 
 
-
-
-
-
-    /**/
-
-
-
-
-
-    .thumbnails-container {
-        display: flex;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 10px 0;
-    }
-
-    .column {
-        flex: 0 0 auto;
-        width: 16.66%; /* Adjust as needed */
-        margin-right: 10px; /* Add gap between thumbnail columns */
-    }
-
-    .demo {
-        opacity: 0.6;
-    }
-
-        .active, .demo:hover {
-            opacity: 1;
-        }
-
+   
 
     .slideshow-img {
         width: 100%;
@@ -272,18 +238,6 @@
         cursor: pointer;
     }
 
-    .thumbnails-container {
-        display: flex;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 10px 0;
-    }
-
-    .column {
-        flex: 0 0 auto;
-        width: 16.66%;
-        padding-right: 5px;
-    }
 
     .demo {
         opacity: 0.6;
@@ -300,6 +254,7 @@
         position: absolute;
         top: 40%;
         width: auto;
+        margin-right: 12px;
         padding: 16px;
         margin-top: -50px;
         color: white;
