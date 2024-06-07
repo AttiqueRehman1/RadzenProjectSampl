@@ -1,0 +1,341 @@
+﻿@page "/product"
+@layout MainLayout
+
+<div class="col-12 row">
+    <div class="col-8">
+        <div class="container">
+            @foreach (var slide in Product.Images)
+            {
+                <div class="mySlides" style="display: @(slideIndex == slide.ImageID ? "block" : "none")">
+                    <div class="numbertext">@slide.ImageID / @Product.Images.Count()</div>
+                    <img src="@slide.ImageUrl" class="slideshow-img">
+                </div>
+            }
+            <a class="prev" @onclick="() => ChangeSlide(-1)">&#10094;</a>
+            <a class="next" @onclick="() => ChangeSlide(1)">&#10095;</a>
+
+            <div class="caption-container">
+                <p>@caption</p>
+            </div>
+            <div class="thumbnails-container">
+                @foreach (var slide in Product.Images)
+                {
+                    <div class="column">
+                        <img class="demo cursor @(slideIndex == slide.ImageID ? "active" : "")"
+                             src="@slide.ImageUrl" style="width:100%"
+                        @onclick="() => ShowSlide(slide.ImageID)"
+                             alt="@slide.ImageUrl">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-4 details-section">
+        <h1>@products.Name</h1>
+        <span>@products.Code</span>
+        <span class="fw-bold">RS: @products.Price</span>
+
+        <div class="size-chart">
+            <label for="size">Size:</label>
+            <div class="size-buttons">
+                <RadzenButton Size="Radzen.ButtonSize.Large" Style="height: 50px;" Text="Small"></RadzenButton>
+                <RadzenButton Size="Radzen.ButtonSize.Large" Style="height: 50px;" Text="Medium"></RadzenButton>
+                <RadzenButton Size="Radzen.ButtonSize.Large" Style="height: 50px;" Text="Large"></RadzenButton>
+            </div>
+        </div>
+
+        <div class="stitching-options">
+            <label for="stitching">Stitching:</label>
+            <div class="stitching-buttons">
+                <RadzenButton Size="Radzen.ButtonSize.Large" Style="height: 50px;" Text="Stitched"></RadzenButton>
+                <RadzenButton Size="Radzen.ButtonSize.Large" Style="height: 50px;" Text="Unstitched"></RadzenButton>
+            </div>
+        </div>
+
+        <div class="quantity">
+            <label for="quantity">Quantity:</label>
+            <div class="quantity-input">
+                <button class="quantity__button" name="minus" @onclick="DecreaseQuantity">-</button>
+                <input class="quantity__input" type="text" name="quantity" id="quantity" value="@Quantity">
+                <button class="quantity__button" name="plus" @onclick="IncreaseQuantity">+</button>
+            </div>
+        </div>
+
+        <div class="instructions" style="display:@(ShowInstructions ? "block" : "none")">
+            <p>@products.Instructions</p>
+        </div>
+
+        <button class="btn-add-cart" @onclick="AddToCart">Add to Cart</button>
+        <button class="btn-whatsapp" @onclick="QueryThroughWhatsapp">Query through WhatsApp</button>
+    </div>
+</div>
+<div class="d-flex justify-content-center pt-4">
+    <h2>You May Also Like</h2>
+</div>
+<YouMayAlsoLike />
+<style>
+
+    .products-details-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .details-section {
+        padding-left: 20px;
+    }
+
+        .details-section h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .details-section span {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+    .size-chart,
+    .stitching-options,
+    .quantity {
+        margin-bottom: 20px;
+    }
+
+        .size-chart label,
+        .stitching-options label,
+        .quantity label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+    .size-buttons,
+    .stitching-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+
+    .stitching-btn {
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+
+        .stitching-btn:hover,
+        .stitching-btn.active {
+            background-color: #ddd;
+        }
+
+    .quantity-input {
+        display: flex;
+        align-items: center;
+    }
+
+    .quantity__button {
+        padding: 10px;
+        border: none;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .quantity__button:hover {
+            background-color: #ddd;
+        }
+
+    .quantity__input {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .instructions {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+    }
+
+    .btn-add-cart,
+    .btn-whatsapp {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+        .btn-add-cart:hover,
+        .btn-whatsapp:hover {
+            background-color: #45a049;
+        }
+
+    .btn-whatsapp {
+        background-color: #25D366;
+    }
+
+        .btn-whatsapp:hover {
+            background-color: #1DA851;
+        }
+
+    .thumbnails-container {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 10px 0;
+    }
+
+    .column {
+        flex: 0 0 auto;
+        width: 16.66%;
+        margin-right: 10px;
+    }
+
+    .demo {
+        opacity: 0.6;
+    }
+
+        .active, .demo:hover {
+            opacity: 1;
+        }
+
+
+
+
+
+
+
+
+
+
+    /**/
+
+
+
+
+
+    .thumbnails-container {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 10px 0;
+    }
+
+    .column {
+        flex: 0 0 auto;
+        width: 16.66%; /* Adjust as needed */
+        margin-right: 10px; /* Add gap between thumbnail columns */
+    }
+
+    .demo {
+        opacity: 0.6;
+    }
+
+        .active, .demo:hover {
+            opacity: 1;
+        }
+
+
+    .slideshow-img {
+        width: 100%;
+        height: 65vh;
+        object-fit: cover; /* Ensure the image covers the container without distortion */
+        display: block;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Position the image container (needed to position the left and right arrows) */
+    .container {
+        position: relative;
+    }
+
+    /* Hide the images by default */
+    .mySlides {
+        display: none;
+    }
+
+    /* Add a pointer when hovering over the thumbnail images */
+    .cursor {
+        cursor: pointer;
+    }
+
+    .thumbnails-container {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 10px 0;
+    }
+
+    .column {
+        flex: 0 0 auto;
+        width: 16.66%;
+        padding-right: 5px;
+    }
+
+    .demo {
+        opacity: 0.6;
+    }
+
+        .active, .demo:hover {
+            opacity: 1;
+        }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 40%;
+        width: auto;
+        padding: 16px;
+        margin-top: -50px;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+        right: 12px;
+        border-radius: 3px 0 0 3px;
+    }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    /* Container for image text */
+    .caption-container {
+        text-align: center;
+        background-color: #222;
+        padding: 2px 16px;
+        color: white;
+    }
+</style>

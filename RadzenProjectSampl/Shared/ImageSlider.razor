@@ -1,0 +1,80 @@
+﻿
+@page "/imageslider"
+@using System.Timers
+@inject IJSRuntime JSRuntime
+@* AutoMAtic Chnages Images *@
+<div class="slider-container">
+    <div class="slider-wrapper" @ref="sliderWrapper">
+        <div class="slider-item" @ref="sliderItem">
+            <img src="images/image (1).jpeg" alt="Image 1">
+        </div>
+        <div class="slider-item">
+            <img src="images/image (2).jpeg" alt="Image 2">
+        </div>
+        <div class="slider-item">
+            <img src="images/image (3).jpeg" alt="Image 3">
+        </div>
+        <!-- Add more slider items as needed -->
+    </div>
+</div>
+
+@code {
+    private ElementReference sliderWrapper;
+    private ElementReference sliderItem;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(500); 
+            StartSliderAnimation();
+        }
+    }
+
+    private void StartSliderAnimation()
+    {
+        var timer = new Timer(10000);
+        timer.Elapsed += (sender, e) => InvokeAsync(() => MoveSlide());
+        timer.Start();
+    }
+
+    private async Task MoveSlide()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlide");
+    }
+}
+
+<style>
+    .slider-container {
+        width: 30%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .slider-wrapper {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .slider-item {
+        min-width: 100%;
+        box-sizing: border-box;
+    }
+
+        .slider-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+</style>
+<script>
+    let currentIndex = 0;
+
+    function moveSlide() {
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        const slides = document.querySelectorAll('.slider-item');
+        currentIndex = (currentIndex + 1) % slides.length;
+        gsap.to(sliderWrapper, { x: -currentIndex * 100 + '%' });
+    }
+</script>
+
