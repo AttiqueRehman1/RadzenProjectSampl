@@ -11,7 +11,7 @@ namespace RadzenProjectSampl.Shared
     public partial class Product_View : ComponentBase
     {
         private int slideIndex = 1;
-
+        private string caption;
         private int Quantity = 1;
         private string SelectedSize;
         private string SelectedStitching;
