@@ -15,7 +15,6 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Pages\Radzen Component\" />
-    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
   <ItemGroup>
