@@ -2,21 +2,7 @@
 @layout MainLayout
 
 <div class="col-12 row">
-    <div class="col-2">
-        <div class="thumbnails-container">
-            @foreach (var slide in Product.Images)
-            {
-                <div class="column">
-                    <img class="demo cursor @(slideIndex == slide.ImageID ? "active" : "")"
-                         src="@slide.ImageUrl" style="width:100%"
-                    @onclick="() => ShowSlide(slide.ImageID)"
-                         alt="@slide.ImageUrl">
-                </div>
-            }
-
-        </div>
-    </div>
-    <div class="col-6">
+    <div class="col-8">
         <div class="container">
             @foreach (var slide in Product.Images)
             {
@@ -30,6 +16,19 @@
 
             <div class="caption-container">
                 <p>@caption</p>
+            </div>
+
+            <!-- Add a new div for thumbnails -->
+            <div class="thumbnails-container">
+                @foreach (var slide in Product.Images)
+                {
+                    <div class="column">
+                        <img class="demo cursor @(slideIndex == slide.ImageID ? "active" : "")"
+                             src="@slide.ImageUrl" style="width:100%; height:100%"
+                        @onclick="() => ShowSlide(slide.ImageID)"
+                             alt="@slide.ImageUrl">
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -191,22 +190,23 @@
             background-color: #1DA851;
         }
 
+
+
     .thumbnails-container {
         display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        white-space: nowrap;
-        padding: 10px 0;
-        height: 100vh;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding: 10px;
+        overflow-x: auto;
+        max-width: 100%;
     }
 
-
-    
-
- 
-
-
-
+        .thumbnails-container .column {
+            margin: 10px;
+            width: 80px; /* adjust the width to fit your needs */
+            height: 60px; /* adjust the height to fit your needs */
+            display: inline-block;
+        }
 
 
 
@@ -238,13 +238,20 @@
         cursor: pointer;
     }
 
+    .column {
+        margin: 10px;
+        width: 20%; /* adjust the width to fit your needs */
+    }
 
     .demo {
-        opacity: 0.6;
+        width: 100%;
+        height: 50px; /* adjust the height to fit your needs */
+        object-fit: cover;
+        cursor: pointer;
     }
 
         .active, .demo:hover {
-            opacity: 1;
+            opacity:0.5;
         }
 
     /* Next & previous buttons */

@@ -22,11 +22,73 @@ namespace RadzenProjectSampl.Shared
         {
             try
             {
-                var response = await productService.GetProducts();
-                if (response.IsSuccessStatusCode)
+                /* var response = await productService.GetProducts();
+                 if (response.IsSuccessStatusCode)
+                 {
+                     Product = response.ResultData as Product;
+                 }*/
+                var product = new Product
                 {
-                    Product = response.ResultData as Product;
-                }
+                    Id = 1,
+                    Name = "Liana GL-LP-V2-17",
+                    Description = null,
+                    Price = 99999.00m,
+                    Stiched = true,
+                    UnStiched = true,
+                    Images = new List<Product_IMAGE>
+                    {
+                        new Product_IMAGE
+                        {
+                            ImageID = 1,
+                            ProductID = 1,
+                            ImageUrl = "images/image (1).jpeg",
+                            Caption = "caption 1"
+                        },
+                        new Product_IMAGE
+                        {
+                            ImageID = 2,
+                            ProductID = 1,
+                            ImageUrl = "images/image (2).jpeg",
+                            Caption = "caption 2"
+                        },
+                        new Product_IMAGE
+                        {
+                            ImageID = 3,
+                            ProductID = 1,
+                            ImageUrl = "images/image (3).jpeg",
+                            Caption = "caption 3"
+                        },
+                        new Product_IMAGE
+                        {
+                            ImageID = 4,
+                            ProductID = 1,
+                            ImageUrl = "images/image (3).jpeg",
+                            Caption = "caption 3"
+                        }, new Product_IMAGE
+                        {
+                            ImageID = 5,
+                            ProductID = 1,
+                            ImageUrl = "images/image (3).jpeg",
+                            Caption = "caption 3"
+                        }, new Product_IMAGE
+                        {
+                            ImageID = 6,
+                            ProductID = 1,
+                            ImageUrl = "images/image (3).jpeg",
+                            Caption = "caption 3"
+                        }, new Product_IMAGE
+                        {
+                            ImageID = 7,
+                            ProductID = 1,
+                            ImageUrl = "images/image (3).jpeg",
+                            Caption = "caption 3"
+                        },
+                    }
+                };
+
+                // Assign the product to the Product property
+                Product = product;
+
                 ShowSlide(slideIndex);
             }
             catch (Exception)

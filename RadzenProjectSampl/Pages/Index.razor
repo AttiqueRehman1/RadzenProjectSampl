@@ -49,16 +49,19 @@
                     <RadzenCard Style="margin-bottom: 20px;">
                         <div class="full-height-card">
                             <div style="position:relative">
-                                <img src="@image" class="card-img-top full-height-card-img" />
-                                <div class="col-12 text-overlay">
-                                    <h3>This photo is related to</h3>
-                                </div>
+                                <a href="@image.ProductUrl">
+                                    <img src="@image.ImagePath" class="card-img-top full-height-card-img" alt="Product Image" />
+                                    <div class="col-12 text-overlay">
+                                        <h3>This photo is related to</h3>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </RadzenCard>
                 </RadzenColumn>
             }
         </RadzenRow>
+
     </div>
     <YouMayAlsoLike />
     <RadzenCard>
@@ -75,11 +78,18 @@
     </RadzenCard>
     <ImageSlider />@* AutoMAtic Chnages Images *@
 </div>
-@code{
-    private List<string> Images = new List<string>
+@code {
+    public class ImageModel
     {
-        "images/image (1).jpeg",
-        "images/image (2).jpeg",
-        "images/image (3).jpeg"
-    };
+        public string ImagePath { get; set; }
+        public string ProductUrl { get; set; }
+    }
+
+    private List<ImageModel> Images = new List<ImageModel>
+{
+    new ImageModel { ImagePath = "images/image (1).jpeg", ProductUrl = "product" },
+    new ImageModel { ImagePath = "images/image (2).jpeg", ProductUrl = "product" },
+    new ImageModel { ImagePath = "images/image (3).jpeg", ProductUrl = "product" }
+};
+
 }
